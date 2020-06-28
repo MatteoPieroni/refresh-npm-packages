@@ -1,6 +1,6 @@
 {
-	"name": "refresh-packages",
-	"displayName": "refresh-packages",
+	"name": "refresh-npm-packages",
+	"displayName": "refresh-npm-packages",
 	"description": "An extension that prompts you to run a fresh install when you pull an updated package-lock.json or yarn.lock.",
 	"version": "0.0.1",
 	"engines": {
@@ -13,14 +13,6 @@
 		"workspaceContains:**/package.json"
 	],
 	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "refresh-packages.helloWorld",
-				"title": "Hello World"
-			}
-		]
-	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
 		"compile": "tsc -p ./",
