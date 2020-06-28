@@ -42,7 +42,10 @@ export class PackageChangeWatcher {
 			new vscode.RelativePattern(
 				basePath,
 				isYarn ? 'yarn.lock' : 'package-lock.json'
-			)
+			),
+			false,
+			false,
+			true,
 		);
 	}
 
@@ -198,8 +201,8 @@ export class PackageChangeWatcher {
 			this.checkAndGenerateWarning(e.scheme === 'git'));
 		this.watcher.onDidCreate((e) =>
 			this.checkAndGenerateWarning(e.scheme === 'git'));
-		this.watcher.onDidDelete((e) =>
-			this.checkAndGenerateWarning(e.scheme === 'git'));
+		// this.watcher.onDidDelete((e) =>
+		// 	this.checkAndGenerateWarning(e.scheme === 'git'));
 	}
 
 	public destroy() {
