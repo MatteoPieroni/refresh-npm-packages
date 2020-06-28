@@ -1,35 +1,16 @@
-# refresh-packages README
+# Refresh NPM Packages
 
-This is the README for your extension "refresh-packages". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Refresh NPM Packages is the VS Code extension that prompts you to run a fresh install when you pull an updated package-lock.json or yarn.lock.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+This extension is intended for workspaces that have source control and for which the lock file might be updated on the remotes.
 
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+This extension only works when opening a workspace folder in VS Code that contains at least one lock file for NPM Packages.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+At the moment there are no known issues. If you find any please contibute using the repo [issues tab](https://github.com/MatteoPieroni/refresh-npm-packages/issues)
 
 ## Release Notes
 
@@ -37,29 +18,10 @@ Users appreciate release notes as you update your extension.
 
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release:
+- watch for changes on `package-lock.json` or `yarn.lock` files
+- prompt to run `npm ci` or `yarn`
 
 -----------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**
