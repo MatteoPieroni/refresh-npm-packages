@@ -2,8 +2,10 @@
 	"name": "refresh-npm-packages",
 	"displayName": "refresh-npm-packages",
 	"publisher": "matteopieroni",
+	"repository": "https://github.com/MatteoPieroni/refresh-npm-packages",
 	"description": "An extension that prompts you to run a fresh install when you pull an updated package-lock.json or yarn.lock.",
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"license": "MIT",
 	"engines": {
 		"vscode": "^1.46.0"
 	},
