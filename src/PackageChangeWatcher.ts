@@ -4,7 +4,7 @@ import * as path from 'path';
 import { DependenciesStore } from './DependenciesStore';
 import { moduleGetVersion } from './utils/moduleGetVersion';
 import { ModulesStore, StoredModules, StoreEquality } from './ModulesStore';
-import { matchPackages } from './utils/matchPackages';
+import { getBasePath } from './utils/getBasePath';
 
 // document could have changed from GIT (yes)
 // from saving (yes) onDidSaveTextDocument
@@ -21,32 +21,39 @@ type PackageJson = {
 	devDependencies?: Dependency;
 };
 
-interface Checker {
-	isPackageLock: boolean,
-	isYarnLock: boolean,
-}
-
 export class PackageChangeWatcher {
 	private packagesStore: DependenciesStore;
 	private modulesStore: ModulesStore;
 	private isYarn: boolean;
 	private doubleSafeGuard: boolean;
+	private basePath: string;
+	private watcher: vscode.FileSystemWatcher;
 
-	constructor() {
+	constructor(path: string) {
+		const basePath = getBasePath(path);
+		const isYarn = path.includes('yarn.lock');
+
 		this.packagesStore = new DependenciesStore();
 		this.modulesStore = new ModulesStore();
-		this.isYarn = false;
+		this.isYarn = isYarn;
 		this.doubleSafeGuard = false;
+		this.basePath = basePath;
+		this.watcher = vscode.workspace.createFileSystemWatcher(
+			new vscode.RelativePattern(
+				basePath,
+				isYarn ? 'yarn.lock' : 'package-lock.json'
+			)
+		);
 	}
 
 	public init() {
 		this.storeDependencies();
 		this.storeModules();
-		this.checkYarn();
+		this.setListeners();
 	}
 
 	private getDependencies(): PackageJson | false {
-		const packageJsonAddress = path.join(vscode.workspace.rootPath || '', 'package.json');
+		const packageJsonAddress = path.join(this.basePath, 'package.json');
 		if (fs.existsSync(packageJsonAddress)) {
 			try {
 				return JSON.parse(fs.readFileSync(packageJsonAddress, 'utf-8')) as PackageJson;
@@ -72,7 +79,7 @@ export class PackageChangeWatcher {
 
 	private async getModules(): Promise<StoredModules | false> {
 		return new Promise((resolve) => {
-			const modulesPath = path.join(vscode.workspace.rootPath || '', 'node_modules');
+			const modulesPath = path.join(this.basePath, 'node_modules');
 			if (!fs.existsSync(modulesPath)) {
 				return resolve({});
 			}
@@ -91,18 +98,12 @@ export class PackageChangeWatcher {
 
 	private toStoreModule(modulesArr: [string, vscode.FileType][]): Dependency {
 		return modulesArr.reduce((acc, singleModule) => {
-			const modulePackagePath = `${path.join(vscode.workspace.rootPath || '', 'node_modules')}/${singleModule[0]}/package.json`;
+			const modulePackagePath = `${path.join(this.basePath, 'node_modules')}/${singleModule[0]}/package.json`;
 			return {
 				...acc,
 				[singleModule[0]]: moduleGetVersion(modulePackagePath)
 			};
 		}, {});
-	}
-
-	// TODO: other paths?
-	private checkYarn(): void {
-		const yarnLockAddress = path.join(vscode.workspace.rootPath || '', 'yarn.lock');
-		this.isYarn = fs.existsSync(yarnLockAddress);
 	}
 
 	private storeDependencies(): boolean | void {
@@ -158,52 +159,50 @@ export class PackageChangeWatcher {
 		}, 5000);
 	}
 
-	private async checkAndGenerateWarning({ isPackageLock, isYarnLock }: Checker) {
-		// TODO: remove this check
-		if (isPackageLock || isYarnLock) {
-			const depsAreEqual = this.checkDependenciesChange();
-			const {
-				shallow: modulesAreShallowEqual,
-				deep: modulesAreDeepEqual
-			} = await this.checkModulesChange();
+	private async checkAndGenerateWarning(shouldSkip?: boolean) {
+		if (shouldSkip) {
+			return;
+		}
 
-			// changed package && lock => npm rm (deps different && node_modules different)
-			// changed package && lock => npm i ...(deps different && node_modules different)
-			if (!depsAreEqual && !modulesAreShallowEqual) {
-				return;
-			}
+		const depsAreEqual = this.checkDependenciesChange();
+		const {
+			shallow: modulesAreShallowEqual,
+			deep: modulesAreDeepEqual
+		} = await this.checkModulesChange();
 
-			// changed package && lock => git (deps changed && node_modules !different)
-			if (!depsAreEqual && modulesAreShallowEqual) {
-				this.warn();
-				return;
-			}
+		// changed package && lock => npm rm (deps different && node_modules different)
+		// changed package && lock => npm i ...(deps different && node_modules different)
+		if (!depsAreEqual && !modulesAreShallowEqual) {
+			return;
+		}
 
-			// packagelock  && !package => npm i (equal node_modules && versions matching)
-			if (depsAreEqual && modulesAreShallowEqual && !modulesAreDeepEqual) {
-				return;
-			}
+		// changed package && lock => git (deps changed && node_modules !different)
+		if (!depsAreEqual && modulesAreShallowEqual) {
+			this.warn();
+			return;
+		}
 
-			// packagelock  && !package => git (equal node_modules && versions !matching)
-			if (depsAreEqual && modulesAreShallowEqual && modulesAreDeepEqual) {
-				this.warn();
-			}
+		// packagelock  && !package => npm i (equal node_modules && versions matching)
+		if (depsAreEqual && modulesAreShallowEqual && !modulesAreDeepEqual) {
+			return;
+		}
+
+		// packagelock  && !package => git (equal node_modules && versions !matching)
+		if (depsAreEqual && modulesAreShallowEqual && modulesAreDeepEqual) {
+			this.warn();
 		}
 	}
 
-	// change to listen only to package-lock or yarn-lock
-	public listenToPackageChanges(e: vscode.TextDocumentChangeEvent | vscode.FileCreateEvent | vscode.FileDeleteEvent) {
-		const { document } = e as vscode.TextDocumentChangeEvent;
-		const { files } = e as vscode.FileCreateEvent | vscode.FileDeleteEvent;
+	private setListeners() {
+		this.watcher.onDidChange((e) =>
+			this.checkAndGenerateWarning(e.scheme === 'git'));
+		this.watcher.onDidCreate((e) =>
+			this.checkAndGenerateWarning(e.scheme === 'git'));
+		this.watcher.onDidDelete((e) =>
+			this.checkAndGenerateWarning(e.scheme === 'git'));
+	}
 
-		if (document && !document.isDirty) {
-			const checks = matchPackages(document.fileName);
-			this.checkAndGenerateWarning(checks);
-		}
-
-		if (files && files.length > 0) {
-			const checks = matchPackages(files.map(file => file.path));
-			this.checkAndGenerateWarning(checks);
-		}
+	public destroy() {
+		this.watcher.dispose();
 	}
 }
