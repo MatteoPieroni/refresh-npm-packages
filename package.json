@@ -1,10 +1,18 @@
 {
 	"name": "refresh-npm-packages",
-	"displayName": "refresh-npm-packages",
+	"displayName": "Refresh NPM Packages",
 	"publisher": "matteopieroni",
-	"repository": "https://github.com/MatteoPieroni/refresh-npm-packages",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/MatteoPieroni/refresh-npm-packages"
+	},
+	"homepage": "https://github.com/MatteoPieroni/refresh-npm-packages",
+	"bugs": {
+		"url": "https://github.com/MatteoPieroni/refresh-npm-packages"
+	},
 	"description": "An extension that prompts you to run a fresh install when you pull an updated package-lock.json or yarn.lock.",
-	"version": "1.0.0",
+	"keywords": ["npm", "yarn", "source control", "refresh", "packages"],
+	"version": "1.0.1",
 	"license": "MIT",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -12,9 +20,25 @@
 	"categories": [
 		"Other"
 	],
+	"icon": "images/refresh-npm-packages-128.png",
 	"activationEvents": [
-		"workspaceContains:**/package.json"
+		"workspaceContains:**/package.json",
+		"onCommand:refresh-npm-packages.enable"
 	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "refresh-npm-packages.enable",
+				"title": "Enable Refresh NPM Packages",
+				"category": "Refresh NPM Packages"
+			},
+			{
+				"command": "refresh-npm-packages.disable",
+				"title": "Disable Refresh NPM Packages",
+				"category": "Refresh NPM Packages"
+			}
+		]
+	},
 	"main": "./out/extension.js",
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
