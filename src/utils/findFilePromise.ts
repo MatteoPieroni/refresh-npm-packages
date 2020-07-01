@@ -7,6 +7,8 @@ export function findFilePromise(
 	token?: vscode.CancellationToken | undefined
 ): Promise<string[]> {
 	return new Promise(resolve => {
-		return vscode.workspace.findFiles(include, exclude, maxResults, token).then(results => resolve(results.map(result => result.toString())));
+		return vscode.workspace.findFiles(include, exclude, maxResults, token).then(results => resolve(results.map(result => {
+			return result.fsPath;
+		})));
 	});
 };

@@ -101,7 +101,7 @@ export class PackageChangeWatcher {
 
 	private toStoreModule(modulesArr: [string, vscode.FileType][]): Dependency {
 		return modulesArr.reduce((acc, singleModule) => {
-			const modulePackagePath = `${path.join(this.basePath, 'node_modules')}/${singleModule[0]}/package.json`;
+			const modulePackagePath = path.join(this.basePath, 'node_modules', singleModule[0], 'package.json');
 			return {
 				...acc,
 				[singleModule[0]]: moduleGetVersion(modulePackagePath)
