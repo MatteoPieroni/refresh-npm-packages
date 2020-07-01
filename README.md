@@ -16,11 +16,7 @@ At the moment there are no known issues. If you find any please contibute using 
 
 Users appreciate release notes as you update your extension.
 
-### 1.0.0
-
-Initial release:
-- watch for changes on `package-lock.json` or `yarn.lock` files
-- prompt to run `npm ci` or `yarn`
+See [changelog](https://github.com/MatteoPieroni/refresh-npm-packages/blob/master/CHANGELOG.md)
 
 -----------------------------------------------------------------------------------------------------------
 

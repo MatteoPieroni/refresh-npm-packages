@@ -1,9 +1,19 @@
 # Change Log
 
-All notable changes to the "refresh-packages" extension will be documented in this file.
+All notable changes to the "npm-refresh-packages" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## 1.0.2
 
-## [Unreleased]
+29 Jun 2020
 
-- Initial release
+### Bugfixes
+- Added support for Windows filesystems
+
+## 1.0.1
+
+29 Jun 2020
+
+### Features
+Initial release:
+- watch for changes on `package-lock.json` or `yarn.lock` files
+- prompt to run `npm ci` or `yarn`
