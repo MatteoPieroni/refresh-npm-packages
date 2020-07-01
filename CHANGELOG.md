@@ -4,7 +4,7 @@ All notable changes to the "npm-refresh-packages" extension will be documented i
 
 ## 1.0.2
 
-29 Jun 2020
+01 Jul 2020
 
 ### Bugfixes
 - Added support for Windows filesystems
