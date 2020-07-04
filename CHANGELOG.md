@@ -2,18 +2,37 @@
 
 All notable changes to the "npm-refresh-packages" extension will be documented in this file.
 
+## 1.1.0
+
+04 Jul 2020
+
+### Features
+
+* Updated bundling and reduced size to 39kb (#4)
+
+### Chores
+
+* Azure Pipelines CI/CD (#3)
+
+* unit tests (#2)
+
+* Updated Changelog
+
 ## 1.0.2
 
 01 Jul 2020
 
 ### Bugfixes
-- Added support for Windows filesystems
+
+* Added support for Windows filesystems
 
 ## 1.0.1
 
 29 Jun 2020
 
 ### Features
+
 Initial release:
-- watch for changes on `package-lock.json` or `yarn.lock` files
-- prompt to run `npm ci` or `yarn`
+
+* watch for changes on `package-lock.json` or `yarn.lock` files
+* prompt to run `npm ci` or `yarn`
