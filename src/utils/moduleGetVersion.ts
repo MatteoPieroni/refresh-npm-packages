@@ -5,6 +5,5 @@ export function moduleGetVersion(path: string): string {
 		return '0';
 	}
 	const modulePackageJson = JSON.parse(fs.readFileSync(path, 'utf-8'));
-
-	return modulePackageJson.version;
+	return modulePackageJson.version || '0';
 }
