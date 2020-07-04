@@ -1,7 +1,6 @@
-trigger:
-  pr:
-    -main
-    -release/*
+pr:
+  -main
+  -release/*
 
 strategy:
   matrix:
