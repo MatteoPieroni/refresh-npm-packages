@@ -53,4 +53,4 @@ steps:
     echo ">>> Publish"
     yarn deploy
   displayName: Publish
-  condition: and(succeeded())
+  condition: succeeded()
