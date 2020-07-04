@@ -49,7 +49,7 @@
 	"scripts": {
 		"clean": "rimraf node_modules",
 		"compile": "webpack --mode development",
-		"deploy": "vsce --yarn",
+		"deploy": "vsce publish --yarn",
 		"install-command": "yarn",
 		"lint": "eslint src --ext ts",
 		"prepublish:1": "npm-run-all --serial clean install-command",
