@@ -1,6 +1,6 @@
 pr:
-  -main
-  -release/*
+  - main
+  - release/*
 
 strategy:
   matrix:
