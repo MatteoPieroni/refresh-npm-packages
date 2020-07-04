@@ -16,7 +16,7 @@ At the moment there are no known issues. If you find any please contibute using 
 
 Users appreciate release notes as you update your extension.
 
-See [changelog](https://github.com/MatteoPieroni/refresh-npm-packages/blob/master/CHANGELOG.md)
+See [changelog](https://github.com/MatteoPieroni/refresh-npm-packages/blob/main/CHANGELOG.md)
 
 -----------------------------------------------------------------------------------------------------------
 
