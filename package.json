@@ -50,6 +50,7 @@
 		"clean": "rimraf node_modules",
 		"compile": "webpack --mode development",
 		"deploy": "vsce publish --yarn",
+		"dev": "webpack --mode development --watch",
 		"install-command": "yarn",
 		"lint": "eslint src --ext ts",
 		"prepublish:1": "npm-run-all --serial clean install-command",
@@ -58,8 +59,7 @@
 		"test:int": "node ./out/test/runTest.js",
 		"test:unit": "mocha -r ts-node/register --recursive '**/__tests__/*.test.ts'",
 		"test-compile": "tsc -p ./",
-		"vscode:prepublish": "npm-run-all --serial prepublish:*",
-		"webpack-dev": "webpack --mode development --watch"
+		"vscode:prepublish": "npm-run-all --serial prepublish:*"
 	},
 	"devDependencies": {
 		"@types/deep-equal": "^1.0.1",
