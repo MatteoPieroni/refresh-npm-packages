@@ -148,9 +148,17 @@ export class PackageChangeWatcher {
 	}
 
 	private warn() {
+		let lockPath = this.basePath;
+		
+		if (vscode.workspace.rootPath) {
+			const remainingPath = this.basePath.replace(vscode.workspace.rootPath, '');
+
+			lockPath = remainingPath || 'root';
+		} 
+
 		if (!this.doubleSafeGuard) {
 			vscode.window.showWarningMessage(
-				`One of the project dependencies has been updated, please run ${
+				`One of the project dependencies at "${lockPath}" has been updated, please run ${
 				this.isYarn ? 'yarn' : 'npm ci'
 				}!`
 			);
