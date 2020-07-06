@@ -4,6 +4,8 @@ Refresh NPM Packages is the VS Code extension that prompts you to run a fresh in
 
 [![Build Status](https://dev.azure.com/matteopieroni6/Refresh%20NPM%20Packages%20extension/_apis/build/status/refresh-npm-packages.pr?branchName=main)](https://dev.azure.com/matteopieroni6/Refresh%20NPM%20Packages%20extension/_build/latest?definitionId=3&branchName=main)
 
+![Refresh NPM Packages demo](images/refresh-npm-packages.gif)
+
 ## Requirements
 
 This extension is intended for workspaces that have source control and for which the lock file might be updated on the remotes.
