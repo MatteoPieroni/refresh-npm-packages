@@ -2,6 +2,16 @@
 
 All notable changes to the "npm-refresh-packages" extension will be documented in this file.
 
+## 1.2.0
+
+06 Jul 2020
+
+### Features
+
+* Allow multiple warnings for workspaces with multiple package.json (#5)
+
+* Ability to run `npm ci` or `yarn` command and status notification (#6)
+
 ## 1.1.0
 
 04 Jul 2020
