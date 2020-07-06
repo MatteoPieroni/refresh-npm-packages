@@ -5,6 +5,7 @@ import { DependenciesStore } from './DependenciesStore';
 import { moduleGetVersion } from './utils/moduleGetVersion';
 import { ModulesStore, StoredModules, StoreEquality } from './ModulesStore';
 import { getBasePath } from './utils/getBasePath';
+import * as childProcess from 'child_process';
 
 // document could have changed from GIT (yes)
 // from saving (yes) onDidSaveTextDocument
@@ -22,12 +23,18 @@ type PackageJson = {
 };
 
 export class PackageChangeWatcher {
+	static actions = {
+		ci: 'Run '
+	};
+
 	private packagesStore: DependenciesStore;
 	private modulesStore: ModulesStore;
 	private isYarn: boolean;
 	private doubleSafeGuard: boolean;
 	private basePath: string;
 	private watcher: vscode.FileSystemWatcher;
+	// TODO: allow for setting this to false in settings
+	private supportsCi: boolean = true;
 
 	constructor(path: string) {
 		const basePath = getBasePath(path);
@@ -147,7 +154,33 @@ export class PackageChangeWatcher {
 		return await this.storeModules();
 	}
 
+	private rebuild(path: string) {
+		const terminalCommand = this.isYarn ?
+			'yarn' :
+			this.supportsCi ?
+				'npm ci' :
+				'npm i';
+		const errorMessage = `Dependencies at "${path}" could not be rebuilt, please try manually`;
+		const successMessage = `Dependencies at "${path}" were rebuilt successfully`;
+
+		childProcess.exec(terminalCommand, { cwd: this.basePath }, (err, stdout, stderr) => {
+			if (err) {
+				vscode.window.showErrorMessage(errorMessage);
+				console.error(stderr);
+				
+				return;
+			}
+			
+			vscode.window.showInformationMessage(successMessage);
+			console.log(stdout);
+
+			this.storeDependencies();
+			this.storeModules();
+		});
+	}
+
 	private warn() {
+		const installAction = `${PackageChangeWatcher.actions.ci}${this.isYarn ? 'yarn' : 'npm ci'}`;
 		let lockPath = this.basePath;
 		
 		if (vscode.workspace.rootPath) {
@@ -160,8 +193,17 @@ export class PackageChangeWatcher {
 			vscode.window.showWarningMessage(
 				`One of the project dependencies at "${lockPath}" has been updated, please run ${
 				this.isYarn ? 'yarn' : 'npm ci'
-				}!`
-			);
+				}!`,
+				installAction,
+			).then(selectedAction => {
+				if (!selectedAction) {
+					return;
+				}
+
+				if (selectedAction === installAction) {
+					this.rebuild(lockPath);
+				}
+			});
 			this.doubleSafeGuard = true;
 		}
 
