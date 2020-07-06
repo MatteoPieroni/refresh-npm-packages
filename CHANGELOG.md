@@ -2,6 +2,14 @@
 
 All notable changes to the "npm-refresh-packages" extension will be documented in this file.
 
+## 1.2.1
+
+06 Jul 2020
+
+### Bugfix
+
+* Changed readme with absolute path to gif
+
 ## 1.2.0
 
 06 Jul 2020
