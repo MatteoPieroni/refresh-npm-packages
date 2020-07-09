@@ -2,9 +2,6 @@ trigger:
   branches:
     exclude:
       - '*'
-  tags:
-    include:
-    - v*
 
 strategy:
   matrix:
