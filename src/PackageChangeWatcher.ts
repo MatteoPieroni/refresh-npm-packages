@@ -5,7 +5,6 @@ import { DependenciesStore } from './DependenciesStore';
 import { moduleGetVersion } from './utils/moduleGetVersion';
 import { ModulesStore, StoredModules, StoreEquality } from './ModulesStore';
 import { getBasePath } from './utils/getBasePath';
-import * as childProcess from 'child_process';
 
 // document could have changed from GIT (yes)
 // from saving (yes) onDidSaveTextDocument
@@ -157,25 +156,16 @@ export class PackageChangeWatcher {
 	}
 
 	private rebuild(path: string) {
-		const terminalCommand = this.isYarn ?
-			'yarn' : this.getPreference();
-		const errorMessage = `Dependencies at "${path}" could not be rebuilt, please try manually`;
-		const successMessage = `Dependencies at "${path}" were rebuilt successfully`;
+		const terminalName = `package rebuild ${path}`;
+		const terminalCommand = this.isYarn ? 'yarn' : this.getPreference();
 
-		childProcess.exec(terminalCommand, { cwd: this.basePath }, (err, stdout, stderr) => {
-			if (err) {
-				vscode.window.showErrorMessage(errorMessage);
-				console.error(stderr);
-				
-				return;
-			}
-			
-			vscode.window.showInformationMessage(successMessage);
-			console.log(stdout);
-
-			this.storeDependencies();
-			this.storeModules();
+		const installTerminal = vscode.window.createTerminal({
+			name: terminalName,
+			cwd: this.basePath
 		});
+		installTerminal.show();
+
+		installTerminal.sendText(terminalCommand);
 	}
 
 	private warn() {
