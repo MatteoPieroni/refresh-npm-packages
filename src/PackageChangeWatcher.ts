@@ -155,28 +155,20 @@ export class PackageChangeWatcher {
 	}
 
 	private rebuild(path: string) {
+		const terminalName = `package rebuild ${path}`;
 		const terminalCommand = this.isYarn ?
 			'yarn' :
 			this.supportsCi ?
 				'npm ci' :
 				'npm i';
-		const errorMessage = `Dependencies at "${path}" could not be rebuilt, please try manually`;
-		const successMessage = `Dependencies at "${path}" were rebuilt successfully`;
 
-		childProcess.exec(terminalCommand, { cwd: this.basePath }, (err, stdout, stderr) => {
-			if (err) {
-				vscode.window.showErrorMessage(errorMessage);
-				console.error(stderr);
-				
-				return;
-			}
-			
-			vscode.window.showInformationMessage(successMessage);
-			console.log(stdout);
-
-			this.storeDependencies();
-			this.storeModules();
+		const installTerminal = vscode.window.createTerminal({
+			name: terminalName,
+			cwd: this.basePath
 		});
+		installTerminal.show();
+
+		installTerminal.sendText(terminalCommand);
 	}
 
 	private warn() {
