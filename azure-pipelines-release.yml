@@ -1,7 +1,7 @@
 trigger:
   branches:
-    exclude:
-      - '*'
+    include:
+      - main
 
 strategy:
   matrix:
@@ -53,4 +53,4 @@ steps:
     echo ">>> Publish"
     yarn deploy
   displayName: Publish
-  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  condition: succeeded()
