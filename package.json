@@ -18,7 +18,7 @@
 		"refresh",
 		"packages"
 	],
-	"version": "1.2.1",
+	"version": "1.3.0",
 	"license": "MIT",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -43,7 +43,25 @@
 				"title": "Disable Refresh NPM Packages",
 				"category": "Refresh NPM Packages"
 			}
-		]
+		],
+    "configuration": {
+      "title": "Refresh NPM Packages",
+      "properties": {
+        "refreshNpmPackages.npmDefault": {
+					"markdownDescription": "The default install command when a `package-lock.json` is detected. Either `npm i` or `npm ci`",
+          "default": "npm ci",
+          "type": "string",
+          "enum": [
+            "npm ci",
+            "npm i"
+					],
+					"markdownEnumDescriptions": [
+						"Rebuilds the packages using `npm ci`",
+						"Rebuilds the packages using `npm i`"
+					]
+        }
+      }
+    }
 	},
 	"main": "./dist/extension.js",
 	"scripts": {

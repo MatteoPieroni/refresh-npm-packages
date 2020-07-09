@@ -2,6 +2,21 @@
 
 All notable changes to the "npm-refresh-packages" extension will be documented in this file.
 
+## 1.3.0
+
+09 Jul 2020
+
+### Performance
+
+* Change from running install in node childProcess to creation of shell (#7)
+
+> This change was required since running the rebuild in a childProcess was consuming too much resources in workspaces with many dependencies
+
+### Features
+
+* Added setting to be able to run npm i instead of ci (#8)
+
+
 ## 1.2.1
 
 06 Jul 2020
