@@ -1,7 +1,10 @@
 trigger:
   branches:
+    exclude:
+      - '*'
+  tags:
     include:
-      - main
+    - v*
 
 strategy:
   matrix:
