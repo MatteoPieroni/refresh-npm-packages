@@ -4,6 +4,17 @@ Refresh NPM Packages is the VS Code extension that prompts you to run a fresh in
 
 ![Refresh NPM Packages demo](https://raw.githubusercontent.com/MatteoPieroni/refresh-npm-packages/main/images/refresh-npm-packages.gif)
 
+## Settings
+
+You can set your preference for the rebuild command when a `package-lock.json` is detected.
+
+This setting defaults to `npm ci`, but you can change it in VS Code settings.
+
+![Refresh NPM Packages setting default npm ci](https://raw.githubusercontent.com/MatteoPieroni/refresh-npm-packages/main/images/refresh-npm-settings-1.png)
+
+
+![Refresh NPM Packages setting npm i](https://raw.githubusercontent.com/MatteoPieroni/refresh-npm-packages/main/images/refresh-npm-packages-settings-2.png)
+
 ## Requirements
 
 This extension is intended for workspaces that have source control and for which the lock file might be updated on the remotes.
