@@ -10,7 +10,7 @@ You can set your preference for the rebuild command when a `package-lock.json` i
 
 This setting defaults to `npm ci`, but you can change it in VS Code settings.
 
-![Refresh NPM Packages setting default npm ci](https://raw.githubusercontent.com/MatteoPieroni/refresh-npm-packages/main/images/refresh-npm-settings-1.png)
+![Refresh NPM Packages setting default npm ci](https://raw.githubusercontent.com/MatteoPieroni/refresh-npm-packages/main/images/refresh-npm-packages-settings-1.png)
 
 
 ![Refresh NPM Packages setting npm i](https://raw.githubusercontent.com/MatteoPieroni/refresh-npm-packages/main/images/refresh-npm-packages-settings-2.png)
