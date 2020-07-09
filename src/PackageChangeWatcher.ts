@@ -156,10 +156,7 @@ export class PackageChangeWatcher {
 
 	private rebuild(path: string) {
 		const terminalCommand = this.isYarn ?
-			'yarn' :
-			this.supportsCi ?
-				'npm ci' :
-				'npm i';
+			'yarn' : vscode.workspace.getConfiguration('refreshNpmPackages').get('npmDefault') as string;
 		const errorMessage = `Dependencies at "${path}" could not be rebuilt, please try manually`;
 		const successMessage = `Dependencies at "${path}" were rebuilt successfully`;
 

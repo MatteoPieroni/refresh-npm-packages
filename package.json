@@ -43,7 +43,25 @@
 				"title": "Disable Refresh NPM Packages",
 				"category": "Refresh NPM Packages"
 			}
-		]
+		],
+    "configuration": {
+      "title": "Refresh NPM Packages",
+      "properties": {
+        "refreshNpmPackages.npmDefault": {
+					"markdownDescription": "The default install command when a `package-lock.json` is detected. Either `npm i` or `npm ci`",
+          "default": "npm ci",
+          "type": "string",
+          "enum": [
+            "npm ci",
+            "npm i"
+					],
+					"markdownEnumDescriptions": [
+						"Rebuilds the packages using `npm ci`",
+						"Rebuilds the packages using `npm i`"
+					]
+        }
+      }
+    }
 	},
 	"main": "./dist/extension.js",
 	"scripts": {
