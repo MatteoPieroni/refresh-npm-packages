@@ -32,8 +32,6 @@ export class PackageChangeWatcher {
 	private doubleSafeGuard: boolean;
 	private basePath: string;
 	private watcher: vscode.FileSystemWatcher;
-	// TODO: allow for setting this to false in settings
-	private supportsCi: boolean = true;
 
 	constructor(path: string) {
 		const basePath = getBasePath(path);
@@ -53,6 +51,10 @@ export class PackageChangeWatcher {
 			false,
 			true,
 		);
+	}
+
+	private getPreference() {
+		return vscode.workspace.getConfiguration('refreshNpmPackages').get('npmDefault') as string;
 	}
 
 	public init() {
@@ -155,11 +157,7 @@ export class PackageChangeWatcher {
 
 	private rebuild(path: string) {
 		const terminalName = `package rebuild ${path}`;
-		const terminalCommand = this.isYarn ?
-			'yarn' :
-			this.supportsCi ?
-				'npm ci' :
-				'npm i';
+		const terminalCommand = this.isYarn ? 'yarn' : this.getPreference();
 
 		const installTerminal = vscode.window.createTerminal({
 			name: terminalName,
@@ -171,7 +169,7 @@ export class PackageChangeWatcher {
 	}
 
 	private warn() {
-		const installAction = `${PackageChangeWatcher.actions.ci}${this.isYarn ? 'yarn' : 'npm ci'}`;
+		const installAction = `${PackageChangeWatcher.actions.ci}${this.isYarn ? 'yarn' : this.getPreference()}`;
 		let lockPath = this.basePath;
 		
 		if (vscode.workspace.rootPath) {
@@ -183,7 +181,7 @@ export class PackageChangeWatcher {
 		if (!this.doubleSafeGuard) {
 			vscode.window.showWarningMessage(
 				`One of the project dependencies at "${lockPath}" has been updated, please run ${
-				this.isYarn ? 'yarn' : 'npm ci'
+					this.isYarn ? 'yarn' : this.getPreference()
 				}!`,
 				installAction,
 			).then(selectedAction => {
