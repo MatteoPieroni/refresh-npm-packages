@@ -2,6 +2,14 @@
 
 All notable changes to the "npm-refresh-packages" extension will be documented in this file.
 
+## 1.3.1
+
+09 Jul 2020
+
+### Bugfix
+
+* Changed readme with absolute path to settings image
+
 ## 1.3.0
 
 09 Jul 2020
