@@ -5,7 +5,6 @@ import { DependenciesStore } from './DependenciesStore';
 import { moduleGetVersion } from './utils/moduleGetVersion';
 import { ModulesStore, StoredModules, StoreEquality } from './ModulesStore';
 import { getBasePath } from './utils/getBasePath';
-import * as childProcess from 'child_process';
 
 // document could have changed from GIT (yes)
 // from saving (yes) onDidSaveTextDocument
