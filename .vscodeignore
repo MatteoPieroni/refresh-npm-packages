@@ -10,3 +10,9 @@ vsc-extension-quickstart.md
 **/*.ts
 **/webpack.config.js
 node_modules/**
+.github/**
+azure-pipelines**
+images/refresh-npm-packages-settings-1.png
+images/refresh-npm-packages-settings-2.png
+images/refresh-npm-packages.gif
+refresh-npm-packages.png
