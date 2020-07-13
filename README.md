@@ -4,6 +4,11 @@ Refresh NPM Packages is the VS Code extension that prompts you to run a fresh in
 
 ![Refresh NPM Packages demo](https://raw.githubusercontent.com/MatteoPieroni/refresh-npm-packages/main/images/refresh-npm-packages.gif)
 
+You can install the extension by:
+- searching in VS Code for `refresh-npm-packages`
+- launching VS Code quick open (Command/Ctrl + p) and pasting `ext install matteopieroni.refresh-npm-packages`
+- from the [VS Code Extension page](https://marketplace.visualstudio.com/items?itemName=matteopieroni.refresh-npm-packages).
+
 ## Settings
 
 You can set your preference for the rebuild command when a `package-lock.json` is detected.
