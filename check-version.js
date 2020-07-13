@@ -1,4 +1,6 @@
 const { exec } = require('child_process');
+var compareVersions = require('compare-versions');
+
 const { version } = require('./package.json');
 
 const command = 'yarn deploy:check';
@@ -17,10 +19,10 @@ exec(command, (err, stdout) => {
 			
 			if (typeof versionString === 'string') {
 				const publishedVersion = versionString.replace(/Version:(\s)+/g, '');
-				const isSameVersion = publishedVersion === version;
-				
-				if (!isSameVersion) {
-					console.log(`New version detected: ${version}. Publishing`);
+				const isHigherVersion = compareVersions(version, publishedVersion) > 0;
+
+				if (isHigherVersion) {
+					console.log(`New version detected: ${publishedVersion} > ${version}. Publishing`);
 					return exec(publish, (publishErr, publiStdout) => {
 						if (publishErr) {
 							console.error(`Error publishing: ${publishErr}`);

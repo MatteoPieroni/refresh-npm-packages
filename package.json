@@ -44,24 +44,24 @@
 				"category": "Refresh NPM Packages"
 			}
 		],
-    "configuration": {
-      "title": "Refresh NPM Packages",
-      "properties": {
-        "refreshNpmPackages.npmDefault": {
+		"configuration": {
+			"title": "Refresh NPM Packages",
+			"properties": {
+				"refreshNpmPackages.npmDefault": {
 					"markdownDescription": "The default install command when a `package-lock.json` is detected. Either `npm i` or `npm ci`",
-          "default": "npm ci",
-          "type": "string",
-          "enum": [
-            "npm ci",
-            "npm i"
+					"default": "npm ci",
+					"type": "string",
+					"enum": [
+						"npm ci",
+						"npm i"
 					],
 					"markdownEnumDescriptions": [
 						"Rebuilds the packages using `npm ci`",
 						"Rebuilds the packages using `npm i`"
 					]
-        }
-      }
-    }
+				}
+			}
+		}
 	},
 	"main": "./dist/extension.js",
 	"scripts": {
@@ -89,6 +89,7 @@
 		"@types/vscode": "^1.46.0",
 		"@typescript-eslint/eslint-plugin": "^2.30.0",
 		"@typescript-eslint/parser": "^2.30.0",
+		"compare-versions": "^3.6.0",
 		"eslint": "^6.8.0",
 		"glob": "^7.1.6",
 		"mocha": "^7.1.2",
