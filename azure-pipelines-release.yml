@@ -52,6 +52,13 @@ steps:
     DISPLAY: ':99.0'
 
 - bash: |
+    echo ">>> Checking version"
+    node ./check-version.js
+  displayName: Version check
+  env:
+    DISPLAY: ':99.0'
+
+- bash: |
     echo ">>> Publish"
     yarn deploy
   displayName: Publish
