@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 const { version } = require('./package.json');
 
-const command = 'vsce show matteopieroni.refresh-npm-packages';
+const command = 'yarn deploy:check';
 
 exec(command, (err, stdout) => {
   if (err) {

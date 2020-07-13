@@ -67,6 +67,7 @@
 	"scripts": {
 		"clean": "rimraf node_modules",
 		"compile": "webpack --mode development",
+		"deploy:check": "vsce show matteopieroni.refresh-npm-packages",
 		"deploy": "vsce publish --yarn",
 		"dev": "webpack --mode development --watch",
 		"install-command": "yarn",
