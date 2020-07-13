@@ -63,4 +63,4 @@ steps:
     echo ">>> Publish"
     yarn deploy
   displayName: Publish
-  condition: succeeded()
+  condition: succeeded('Version check')
