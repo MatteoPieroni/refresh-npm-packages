@@ -55,6 +55,7 @@ steps:
     echo ">>> Checking version"
     node ./check-version.js
   displayName: Version check
+  continueOnError: true
   env:
     DISPLAY: ':99.0'
 
