@@ -52,15 +52,8 @@ steps:
     DISPLAY: ':99.0'
 
 - bash: |
-    echo ">>> Checking version"
+    echo ">>> Checking and Publish"
     node ./check-version.js
-  displayName: Version check
-  continueOnError: true
+  displayName: Check publish
   env:
     DISPLAY: ':99.0'
-
-- bash: |
-    echo ">>> Publish"
-    yarn deploy
-  displayName: Publish
-  condition: succeeded('Version check')

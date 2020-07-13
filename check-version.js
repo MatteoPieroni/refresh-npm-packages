@@ -2,11 +2,12 @@ const { exec } = require('child_process');
 const { version } = require('./package.json');
 
 const command = 'yarn deploy:check';
+const publish = 'yarn deploy';
 
 exec(command, (err, stdout) => {
   if (err) {
     //some err occurred
-		console.error(err);
+		console.error(`Error checking version: ${err}`);
 		
 		process.exit(1);
   } else {
@@ -18,12 +19,22 @@ exec(command, (err, stdout) => {
 				const publishedVersion = versionString.replace(/Version:(\s)+/g, '');
 				const isSameVersion = publishedVersion === version;
 				
-				if (!isSameVersion) {
-					console.log('New version detected', version);
-					return process.exit(0);
+				if (isSameVersion) {
+					console.log(`New version detected: ${version}. Publishing`);
+					return exec(publish, (publishErr, publiStdout) => {
+						if (publishErr) {
+							console.error(`Error publishing: ${publishErr}`);
+
+							process.exit(1);
+						}
+
+						console.log(publiStdout);
+						return process.exit(0);
+					});
 				};
 
-				throw new Error('Skip publishing');
+				console.log('Same version detected, skipping publish step');
+				process.exit(0);
 			}
 		} catch(e) {
 			console.error(e);
