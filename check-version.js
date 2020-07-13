@@ -19,7 +19,7 @@ exec(command, (err, stdout) => {
 				const publishedVersion = versionString.replace(/Version:(\s)+/g, '');
 				const isSameVersion = publishedVersion === version;
 				
-				if (isSameVersion) {
+				if (!isSameVersion) {
 					console.log(`New version detected: ${version}. Publishing`);
 					return exec(publish, (publishErr, publiStdout) => {
 						if (publishErr) {
